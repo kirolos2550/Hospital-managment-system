@@ -58,16 +58,38 @@ private:
     queue<int> appointmentQueue;
 
 public:
-    Doctor(int did, string n, Department d);
 
-    void addAppointment(int patientId);
-    int seePatient();
+    Doctor(int did, string n, Department d) {
+        id = did;
+        name = n;
+        department = d;
+    }
 
-    int getId();
-    string getName();
-    string getDepartment();
+    void addAppointment(int patientId) {
+        appointmentQueue.push(patientId);
+    }
+
+    int seePatient() {
+        if (appointmentQueue.empty()) {
+            return -1;  // مفيش مرضى
+        }
+        int nextPatient = appointmentQueue.front();
+        appointmentQueue.pop();
+        return nextPatient;
+    }
+
+    int getId() {
+        return id;
+    }
+
+    string getName() {
+        return name;
+    }
+
+    Department getDepartment() {
+        return department;
+    }
 };
-
 // ========== HOSPITAL CLASS ========== //
 class Hospital {
 private:
