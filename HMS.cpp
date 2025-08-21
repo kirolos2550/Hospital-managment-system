@@ -6,7 +6,8 @@
 using namespace std;
 
 // ========== ENUMERATIONS ========== //
-enum Department {
+enum Department
+{
     CARDIOLOGY,
     NEUROLOGY,
     ORTHOPEDICS,
@@ -15,7 +16,8 @@ enum Department {
     GENERAL
 };
 
-enum RoomType {
+enum RoomType
+{
     GENERAL_WARD,
     ICU,
     PRIVATE_ROOM,
@@ -23,7 +25,8 @@ enum RoomType {
 };
 
 // ========== PATIENT CLASS ========== //
-class Patient {
+class Patient
+{
 private:
     int id;
     string name;
@@ -50,7 +53,8 @@ public:
 };
 
 // ========== DOCTOR CLASS ========== //
-class Doctor {
+class Doctor
+{
 private:
     int id;
     string name;
@@ -58,18 +62,47 @@ private:
     queue<int> appointmentQueue;
 
 public:
-    Doctor(int did, string n, Department d);
+    Doctor(int did, string n, Department d)
+    {
+        id = did;
+        name = n;
+        department = d;
+    }
 
-    void addAppointment(int patientId);
-    int seePatient();
+    void addAppointment(int patientId)
+    {
+        appointmentQueue.push(patientId);
+    }
 
-    int getId();
-    string getName();
-    string getDepartment();
+    int seePatient()
+    {
+        if (appointmentQueue.empty())
+        {
+            return -1; // مفيش مرضى
+        }
+        int nextPatient = appointmentQueue.front();
+        appointmentQueue.pop();
+        return nextPatient;
+    }
+
+    int getId()
+    {
+        return id;
+    }
+
+    string getName()
+    {
+        return name;
+    }
+
+    Department getDepartment()
+    {
+        return department;
+    }
 };
-
 // ========== HOSPITAL CLASS ========== //
-class Hospital {
+class Hospital
+{
 private:
     vector<Patient> patients;
     vector<Doctor> doctors;
@@ -80,18 +113,85 @@ private:
 public:
     Hospital();
 
-    int registerPatient(string name, int age, string contact);
+    int registerPatient(string name, int age, string contact)
+    {
+        for (int i = 0; i < patients.size(); i++)
+        {
+            if (patients[i].getName() == name)
+            {
+                cout << "this patient already exists  " << endl;
+                return (i + 1);
+            }
+        }
+        patientCounter++;
+        patients.push_back(Patient(patientCounter, name, age, contact));
+        return patientCounter;
+    }
     int addDoctor(string name, Department dept);
     void admitPatient(int patientId, RoomType type);
-    void addEmergency(int patientId);
-    int handleEmergency();
-    void bookAppointment(int doctorId, int patientId);
-    void displayPatientInfo(int patientId);
-    void displayDoctorInfo(int doctorId);
+    void addEmergency(int patientId)
+    {
+        emergencyQueue.push(patientId);
+    }
+    int handleEmergency()
+    {
+        if (emergencyQueue.empty())
+        {
+            cout << "No emergency cases...." << endl;
+            return -1;
+        }
+        else
+        {
+            int v = emergencyQueue.front();
+            emergencyQueue.pop();
+            cout << "Patient with ID" << v << "has been handeled";
+        }
+    }
+    void bookAppointment(int doctorId, int patientId)
+    {
+        if (doctorId > doctors.size())
+        {
+            cout << "the doctorid is not valid...." << endl;
+            return;
+        }
+        if (patientId > patients.size())
+        {
+            cout << "the patientid is not valid...." << endl;
+            return;
+        }
+        doctors[doctorId - 1].addAppointment(patientId);
+    }
+    void displayPatientInfo(int patientId)
+    {
+        if (patientId <= patients.size())
+        {
+            cout << "The patient's Name:   " << patients[patientId - 1].getName() << "               ";
+            cout << "The patient's ID:   " << patients[patientId - 1].getId() << "               ";
+            cout << "The patient's Admission status is:   " << patients[patientId - 1].getAdmissionStatus() << "               ";
+            cout << "The patient's Name:   " << patients[patientId - 1].displayHistory() << endl;
+        }
+        else
+        {
+            cout << "Invalid patient's ID " << endl;
+        }
+    }
+    void displayDoctorInfo(int doctorId)
+    {
+        if (doctorId <= doctors.size())
+        {
+            cout << "The Doctor Name :   " << doctors[doctorId - 1].getName() << "              ";
+            cout << "The Doctor Department :   " << doctors[doctorId - 1].getDepartment() << endl;
+        }
+        else
+        {
+            cout << "invalid doctorid  " << endl;
+        }
+    }
 };
 
 // ========== MAIN PROGRAM ========== //
-int main() {
+int main()
+{
     Hospital hospital;
 
     // Test Case 1: Registering patients
