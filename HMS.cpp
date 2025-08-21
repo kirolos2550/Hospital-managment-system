@@ -6,7 +6,8 @@
 using namespace std;
 
 // ========== ENUMERATIONS ========== //
-enum Department {
+enum Department
+{
     CARDIOLOGY,
     NEUROLOGY,
     ORTHOPEDICS,
@@ -15,7 +16,8 @@ enum Department {
     GENERAL
 };
 
-enum RoomType {
+enum RoomType
+{
     GENERAL_WARD,
     ICU,
     PRIVATE_ROOM,
@@ -23,7 +25,8 @@ enum RoomType {
 };
 
 // ========== PATIENT CLASS ========== //
-class Patient {
+class Patient
+{
 private:
     int id;
     string name;
@@ -35,22 +38,58 @@ private:
     RoomType roomType;
 
 public:
-    Patient(int pid, string n, int a, string c);
+    Patient(int pid, string n, int a, string c)
+    {
+        id = pid;
+        name = n;
+        age = a;
+        contact = c;
+    }
+    void admitPatient(RoomType type)
+    {
+        if (isAdmitted)
+        {
+            cout << "Patient " << name << " is already admitted.\n";
+        }
+        else
+        {
+            isAdmitted = true;
+            roomType = type;
+            cout << "Patient " << name << " admitted to " << roomToString(type) << ".\n";
+        }
+    }
+    void dischargePatient()
+    {
+        if (isAdmitted)
+        {
+            isAdmitted = false;
+            cout << "Patient " << name << " discharged.\n";
+        }
+        else
+        {
+            cout << "Patient " << name << " is not admitted.\n";
+        }
+    }
+} void addMedicalRecord(string record)
+{
+    medicalHistory.push(record);
+}
+void requestTest(string testName)
+{
+    testQueue.push(testName);
+}
+string performTest();
+void displayHistory();
 
-    void admitPatient(RoomType type);
-    void dischargePatient();
-    void addMedicalRecord(string record);
-    void requestTest(string testName);
-    string performTest();
-    void displayHistory();
-
-    int getId();
-    string getName();
-    bool getAdmissionStatus();
-};
+int getId();
+string getName();
+bool getAdmissionStatus();
+}
+;
 
 // ========== DOCTOR CLASS ========== //
-class Doctor {
+class Doctor
+{
 private:
     int id;
     string name;
@@ -69,7 +108,8 @@ public:
 };
 
 // ========== HOSPITAL CLASS ========== //
-class Hospital {
+class Hospital
+{
 private:
     vector<Patient> patients;
     vector<Doctor> doctors;
@@ -91,7 +131,8 @@ public:
 };
 
 // ========== MAIN PROGRAM ========== //
-int main() {
+int main()
+{
     Hospital hospital;
 
     // Test Case 1: Registering patients
