@@ -165,9 +165,9 @@ public:
     {
         if (patientId <= patients.size())
         {
-            cout << "The patient's Name:   " << patients[patientId - 1].getName() << "               ";
-            cout << "The patient's ID:   " << patients[patientId - 1].getId() << "               ";
-            cout << "The patient's Admission status is:   " << patients[patientId - 1].getAdmissionStatus() << "               ";
+            cout << "The patient's Name:   " << patients[patientId - 1].getName() << endl;
+            cout << "The patient's ID:   " << patients[patientId - 1].getId() << endl;
+            cout << "The patient's Admission status is:   " << patients[patientId - 1].getAdmissionStatus() << endl;
             cout << "The patient's Name:   " << patients[patientId - 1].displayHistory() << endl;
         }
         else
