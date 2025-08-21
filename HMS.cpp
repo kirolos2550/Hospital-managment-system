@@ -80,14 +80,52 @@ private:
 public:
     Hospital();
 
-    int registerPatient(string name, int age, string contact);
+    int registerPatient(string name, int age, string contact)
+    {
+        for (int i = 0; i < patients.size(); i++)
+        {
+            if (patients[i].getName() == name)
+            {
+                cout << "this patient already exists  " << endl;
+                return (i + 1);
+            }
+
+        }
+        patientCounter++;
+        patients.push_back(Patient(patientCounter,name, age, contact));
+        return patientCounter;
+    }
     int addDoctor(string name, Department dept);
     void admitPatient(int patientId, RoomType type);
     void addEmergency(int patientId);
     int handleEmergency();
-    void bookAppointment(int doctorId, int patientId);
+    void bookAppointment(int doctorId, int patientId)
+    {
+        if (doctorId > doctors.size())
+        {
+            cout << "the doctorid is not valid...." << endl;
+            return;
+        }
+        if (patientId > patients.size())
+        {
+            cout << "the patientid is not valid...." << endl;
+            return;
+        }
+        doctors[doctorId - 1].addAppointment(patientId);
+    }
     void displayPatientInfo(int patientId);
-    void displayDoctorInfo(int doctorId);
+    void displayDoctorInfo(int doctorId)
+    {
+        if (doctorId <= doctors.size())
+        {
+            cout << "The Doctor Name :   " << doctors[doctorId - 1].getName()<<"              ";
+            cout << "The Doctor Department :   " << doctors[doctorId - 1].getDepartment() << endl;
+        }
+        else
+        {
+            cout << "invalid doctorid  " << endl;
+        }
+    }
 };
 
 // ========== MAIN PROGRAM ========== //
