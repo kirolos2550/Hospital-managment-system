@@ -78,14 +78,39 @@ void requestTest(string testName)
 {
     testQueue.push(testName);
 }
-string performTest();
-void displayHistory();
+ string performTest() {
+        if (testQueue.empty()) {
+            medicalHistory.push("No tests pending.");
+            cout << "[Info] No tests pending for patient " << id << ".\n";
+            return "No tests pending";
+        }
+        string t = testQueue.front();
+        testQueue.pop();
+        medicalHistory.push(string("Performed test: ") + t + ".");
+        cout << "[Info] Performed test for patient " << id << ": " << t << "\n";
+        return t;
+    }
 
-int getId();
-string getName();
-bool getAdmissionStatus();
-}
-;
+    void displayHistory() {
+        if (medicalHistory.empty()) {
+            cout << "  (No medical history)\n";
+            return;
+        }
+        // Reverse the LIFO stack using a temp stack so we print in chronological order
+        stack<string> temp = medicalHistory;
+        stack<string> rev;
+        while (!temp.empty()) { rev.push(temp.top()); temp.pop(); }
+        int idx = 1;
+        while (!rev.empty()) {
+            cout << "  " << idx++ << ". " << rev.top() << "\n";
+            rev.pop();
+        }
+    }
+
+   int getId() { return pid; }
+    string getName() { return name; }
+    bool getAdmissionStatus() { return isAdmitted; }
+};
 
 // ========== DOCTOR CLASS ========== //
 class Doctor
@@ -324,5 +349,6 @@ int main()
 
     return 0;
 }
+
 
 
