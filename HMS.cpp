@@ -134,13 +134,23 @@ public:
         }
         if(IfExist == false )
         {
-            doctors.push_back(name,dept);
             doctorCounter++;
+            doctors.push_back(Doctor(doctorCounter,name,dept));
             result=doctorCounter;
         }
         return result;
     }
-    void admitPatient(int patientId, RoomType type);
+    void admitPatient(int patientId, RoomType type)
+    {
+        if (patientId<=patients.size())
+        {
+            cout << "The patient's room type:   " << patients[patientId-1].admitPatient().roomType << endl;
+        }
+        else
+        {
+            cout << "Invalid patient's ID " << endl;
+        }
+    }
     int registerPatient(string name, int age, string contact)
     {
         for (int i = 0; i < patients.size(); i++)
