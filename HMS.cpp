@@ -144,7 +144,7 @@ public:
     {
         if (patientId<=patients.size())
         {
-            cout << "The patient's room type:   " << patients[patientId-1].admitPatient().roomType << endl;
+            cout << "The patient's room type:   " << patients[patientId-1].admitPatient().RoomType << endl;
         }
         else
         {
@@ -289,4 +289,5 @@ int main()
 
     return 0;
 }
+
 
