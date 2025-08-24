@@ -111,8 +111,36 @@ private:
     int doctorCounter;
 
 public:
-    Hospital();
+    Hospital(){
+        patientCounter=0;
+        doctorCounter=0;
+    }
 
+    int addDoctor(string name, Department dept)
+    {
+        int result =0;
+        bool IfExist
+        {
+            for (int i=0;i<doctors.size();i++)
+                {
+                    if(doctors[i].getName() == name)
+                    {
+                        result=i+1;
+                         return true;
+                    }
+
+                }
+
+        }
+        if(IfExist == false )
+        {
+            doctors.push_back(name,dept);
+            doctorCounter++;
+            result=doctorCounter;
+        }
+        return result;
+    }
+    void admitPatient(int patientId, RoomType type);
     int registerPatient(string name, int age, string contact)
     {
         for (int i = 0; i < patients.size(); i++)
@@ -125,10 +153,8 @@ public:
         }
         patientCounter++;
         patients.push_back(Patient(patientCounter, name, age, contact));
-        return patientCounter;
+        return patientCounter;//(مش المفروض تكون ال patient id ?)
     }
-    int addDoctor(string name, Department dept);
-    void admitPatient(int patientId, RoomType type);
     void addEmergency(int patientId)
     {
         emergencyQueue.push(patientId);
