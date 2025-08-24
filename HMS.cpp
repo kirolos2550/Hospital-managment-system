@@ -134,8 +134,8 @@ public:
         }
         if(IfExist == false )
         {
-            doctors.push_back(name,dept);
             doctorCounter++;
+            doctors.push_back(Doctor(doctorCounter,name,dept));
             result=doctorCounter;
         }
         return result;
@@ -279,3 +279,4 @@ int main()
 
     return 0;
 }
+
