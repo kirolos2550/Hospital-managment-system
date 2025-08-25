@@ -70,7 +70,7 @@ public:
             cout << "Patient " << name << " is not admitted.\n";
         }
     }
-} void addMedicalRecord(string record)
+ void addMedicalRecord(string record)
 {
     medicalHistory.push(record);
 }
@@ -110,8 +110,8 @@ void requestTest(string testName)
    int getId() { return pid; }
     string getName() { return name; }
     bool getAdmissionStatus() { return isAdmitted; }
+}
 };
-
 // ========== DOCTOR CLASS ========== //
 class Doctor
 {
