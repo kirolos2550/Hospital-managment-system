@@ -38,14 +38,15 @@ private:
     RoomType roomType;
 
 public:
-    Patient(int pid, string n, int a, string c)
+    Patient(int pid, string n, int a, string c)//adbelmasih
     {
         id = pid;
         name = n;
         age = a;
         contact = c;
+        isAdmitted = false;
     }
-    void admitPatient(RoomType type)
+    void admitPatient(RoomType type)//adbelmasih
     {
         if (isAdmitted)
         {
@@ -55,10 +56,22 @@ public:
         {
             isAdmitted = true;
             roomType = type;
-            cout << "Patient " << name << " admitted to " << roomToString(type) << ".\n";
+            cout << "Patient " << name << " admitted to " << RoomToSting(roomType) << ".\n";
         }
     }
-    void dischargePatient()
+    string RoomToSting(RoomType roomType)
+{
+    switch (roomType)
+    {
+    case GENERAL_WARD: return "GENERAL_WARD";
+    case ICU: return "ICU";
+    case PRIVATE_ROOM: return "PRIVATE_ROOM";
+    case SEMI_PRIVATE: return "SEMI_PRIVATE";
+
+    default: return "Unknown";
+    }
+}
+    void dischargePatient()//adbelmasih
     {
         if (isAdmitted)
         {
@@ -70,11 +83,11 @@ public:
             cout << "Patient " << name << " is not admitted.\n";
         }
     }
- void addMedicalRecord(string record)
+ void addMedicalRecord(string record)//adbelmasih
 {
     medicalHistory.push(record);
 }
-void requestTest(string testName)
+void requestTest(string testName)//adbelmasih
 {
     testQueue.push(testName);
 }
@@ -107,10 +120,10 @@ void requestTest(string testName)
         }
     }
 
-   int getId() { return pid; }
+   int getId() { return id; }
     string getName() { return name; }
     bool getAdmissionStatus() { return isAdmitted; }
-}
+
 };
 // ========== DOCTOR CLASS ========== //
 class Doctor
@@ -155,10 +168,19 @@ public:
         return name;
     }
 
-    Department getDepartment()
+    string getDepartment()
+{
+    switch (department)
     {
-        return department;
+    case CARDIOLOGY: return "Cardiology";
+    case NEUROLOGY: return "Neurology";
+    case ORTHOPEDICS: return "Orthopedics";
+    case PEDIATRICS: return "Pediatrics";
+    case EMERGENCY: return "Emergency";
+    case GENERAL: return "General";
+    default: return "Unknown";
     }
+}
 };
 // ========== HOSPITAL CLASS ========== //
 class Hospital
@@ -179,20 +201,21 @@ public:
     int addDoctor(string name, Department dept)
     {
         int result =0;
-        bool IfExist
-        {
-            for (int i=0;i<doctors.size();i++)
+        bool IfExist=false;
+
+            for(int i = 0;i < doctors.size();i++)
                 {
                     if(doctors[i].getName() == name)
                     {
                         result=i+1;
-                         return true;
+                        IfExist=true;
+
                     }
 
                 }
 
-        }
-        if(IfExist == false )
+
+        if(IfExist== false )
         {
             doctorCounter++;
             doctors.push_back(Doctor(doctorCounter,name,dept));
@@ -204,7 +227,8 @@ public:
     {
         if (patientId<=patients.size())
         {
-            cout << "The patient's room type:   " << patients[patientId-1].admitPatient().RoomType << endl;
+
+            patients[patientId-1].admitPatient(type) ;
         }
         else
         {
@@ -223,7 +247,7 @@ public:
         }
         patientCounter++;
         patients.push_back(Patient(patientCounter, name, age, contact));
-        return patientCounter;//(مش المفروض تكون ال patient id ?)
+        return patientCounter;
     }
     void addEmergency(int patientId)
     {
@@ -240,7 +264,7 @@ public:
         {
             int v = emergencyQueue.front();
             emergencyQueue.pop();
-            cout << "Patient with ID" << v << "has been handeled";
+            cout << "Patient with ID " << v << " has been handeled\n";
         }
     }
     void bookAppointment(int doctorId, int patientId)
@@ -259,12 +283,14 @@ public:
     }
     void displayPatientInfo(int patientId)
     {
-        if (patientId <= patients.size())
+        if (patientId < patients.size())
         {
             cout << "The patient's Name:   " << patients[patientId - 1].getName() << endl;
             cout << "The patient's ID:   " << patients[patientId - 1].getId() << endl;
-            cout << "The patient's Admission status is:   " << patients[patientId - 1].getAdmissionStatus() << endl;
-            cout << "The patient's Name:   " << patients[patientId - 1].displayHistory() << endl;
+            cout << "The patient's Admission status is:   "
+             << (patients[patientId - 1].getAdmissionStatus() ?"admitted" : "not admitted")<< endl;
+            cout << "The patient's history:   " ;
+             patients[patientId - 1].displayHistory() ;
         }
         else
         {
